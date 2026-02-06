@@ -14,6 +14,7 @@ const Header = ({ isDarkMode, onThemeToggle }) => {
   const navItems = [
     { label: 'How It Works', path: '/how-it-works' },
     { label: 'Pricing', path: '/pricing' },
+    { label: 'Permits', path: '/permits' },
     { label: 'Contact', path: '/contact' },
   ];
 

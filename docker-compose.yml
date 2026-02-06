@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: permits_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: permits123
+      POSTGRES_DB: permits
+      # Force password authentication for all connections
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+    ports:
+      - "5433:5432"
+    volumes:
+      - permits_data:/var/lib/postgresql/data
+      # Initialize with schema on first run
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  permits_data:
+    name: permits_postgres_data
